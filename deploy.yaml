@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app-deployment
+  labels:
+    app: react-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      containers:
+        - name: react-app-container
+          image: asia-south1-docker.pkg.dev/hallowed-pager-431606-v9/prasad-bro/test:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+      volumes:
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: react-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    server {
+      listen 80;
+      location / {
+        root /usr/share/nginx/html/cms;
+        index index.html;
+        try_files $uri /index.html;
+      }
+    }
