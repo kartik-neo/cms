@@ -1,0 +1,18 @@
+.table-btn {
+  background: white;
+  color: black;
+  font-weight: 300;
+  font-size: 7px;
+  border: 1px solid black;
+  height: 2rem;
+  width: 7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.step-main {
+  display: flex;
+  justify-content: space-evenly;
+  border: 1px solid black;
+}

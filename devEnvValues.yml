@@ -1,0 +1,16 @@
+applicationName: web-cms
+
+replicaCount: 1
+
+image:
+  repository: git.medullahealth.in:8443/medulla/web/cms-app
+
+network:
+  port: 3000
+
+applicationSettings:
+  REACT_APP_API_BASE_URL: https://qa.jlhl.in/api/v1
+  PUBLIC_URL: https://qa.jlhl.in/cms/
+
+resources:
+  memorylimit: "1024Mi"
